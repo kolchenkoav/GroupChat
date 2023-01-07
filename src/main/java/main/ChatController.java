@@ -1,14 +1,30 @@
 package main;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class ChatController {
     @GetMapping("/init")
-    public String init() {
-
-        return "Yes";
+    public Boolean init() {
+        //TODO check sessionId. If found => true, if not => false
+        return true;
     }
 
+    @PostMapping("/message")
+    public Boolean sendMessage(@RequestParam String message) {
+        return true;
+    }
+
+    @GetMapping("/message")
+    public List<String> getMessagesList() {
+        return null;
+    }
+
+    @GetMapping("/user")
+    public HashMap<Integer, String> getUserList() {
+        return null;
+    }
 }
