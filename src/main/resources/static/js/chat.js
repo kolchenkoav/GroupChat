@@ -1,5 +1,7 @@
 $(function () {
     $('.send-message').on('click', function (){
-        alert('MMM');
+        $.get('/init', {}, function (response) {
+            alert(response);
+        })
     });
 });
