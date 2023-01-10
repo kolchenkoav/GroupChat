@@ -1,16 +1,47 @@
 package main;
 
+import main.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
 public class ChatController {
+    @Autowired
+    private final UserRepository userRepository;
+
+    public ChatController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @GetMapping("/init")
-    public Boolean init() {
+    public HashMap<String, Boolean>  init() {
+        HashMap<String, Boolean> response = new HashMap<>();
         //TODO check sessionId. If found => true, if not => false
-        return true;
+
+        response.put("result", false);
+        return response;
+    }
+
+    @PostMapping("/auth")
+    public HashMap<String, Boolean> auth(@Validated @RequestParam String name) {
+        HashMap<String, Boolean> response = new HashMap<>();
+        //TODO
+        // create user with name, sessionId
+        // save user to DB
+        String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+        User user = new User();
+        user.setName(name);
+        user.setSessionId(sessionId);
+
+        userRepository.save(user);
+
+        response.put("result", true);
+        return response;
     }
 
     @PostMapping("/message")
